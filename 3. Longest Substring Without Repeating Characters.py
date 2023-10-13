@@ -1,25 +1,17 @@
-"""
-Runtime: Beats 13.43%
-Memory: Beats 24.45%
-"""
-
-
 class Solution:
     def lengthOfLongestSubstring(self, s: str) -> int:
+        
+        sub = set()
+        ans = 0
+        left = 0
 
-        length = 0
+        for right in range(len(s)):
 
-        for i in range(len(s)):
-            char_set = set()
-            temp_length = 0
-            for j in range(i, len(s)):
-                if not s[j] in char_set:
-                    char_set.add(s[j])
-                    temp_length += 1
-                else:
-                    break
-            if temp_length > length:
-                length = temp_length
+            while s[right] in sub:
+                sub.remove(s[left])
+                left += 1
+            
+            sub.add(s[right])
+            ans = max(ans, right-left+1)
 
-        return length
-
+        return ans
