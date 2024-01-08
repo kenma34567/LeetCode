@@ -1,39 +1,52 @@
+"""
+
+
+There are n children standing in a line. Each child is assigned a rating value given in the integer array ratings.
+
+You are giving candies to these children subjected to the following requirements:
+
+Each child must have at least one candy.
+Children with a higher rating get more candies than their neighbors.
+Return the minimum number of candies you need to have to distribute the candies to the children.
+
+
+"""
+
+
 class Solution:
-    def candy(self, ratings: List[int]) -> int:
 
-        """
-            @param candyDis -> distribution of candies, init: [1 * len(ratings)
+    def test(self):
 
-            go through the array in-order and reverse-order,
-            so that it can compare to the right and left neighbour respectively in each run
+        tests = [[1, 0, 2],
+                 [1, 2, 2],
+                 [1, 1, 1],
+                 [2, 2, 2],
+                 [8, 3, 4, 5, 6, 8, 7],
+                 [1, 3, 2, 2, 1]]
+        for t in tests:
+            print("running", t)
+            print("ans", self.solve(ratings=t))
+            print("")
 
-            [1, 0, 2]
-            candyDis: [1, 1, 1]
+    @staticmethod
+    def solve(ratings) -> int:
 
-            1st loop:   1) rating[0] > rating[1] --> candyDis: [2, 1, 1]
-                        2) rating[1] < rating[2] --> candyDis: [2, 1, 1]
-                        3) rating[2] has nth to compare --> candyDis: [2, 1, 1]
-
-            2nd loop:
-                        1) rating[2] > rating[1] --> candyDis: [2, 1, 2]
-                        2) rating[1] < rating[0] --> candyDis: [2, 1, 2]
-                        3) rating[0] has nth to compare --> candyDis: [2, 1, 2]
-
-            return sum(candyDis)
-        """
-
-        candyDis = [1] * len(ratings)
+        candies = [1] * len(ratings)
 
         for i in range(1, len(ratings)):
-            if ratings[i] > ratings[i - 1]:
-                candyDis[i] = candyDis[i - 1] + 1
+            if ratings[i] > ratings[i-1]:
+                candies[i] = candies[i-1]+1
 
-        # print("can after 1st", candyDis)
+        print("---first run", candies)
 
-        for i in range(len(ratings) - 2, -1, -1):
-            if ratings[i] > ratings[i + 1]:
-                candyDis[i] = max(candyDis[i], candyDis[i + 1] + 1)
+        for i in range(len(ratings)-2, -1, -1):
+            if ratings[i] > ratings[i+1]:
+                candies[i] = max(candies[i], candies[i+1]+1)
 
-        # print("can", candyDis)
+        print("---second run", candies)
 
-        return sum(candyDis)
+        return sum(candies)
+
+
+s = Solution()
+s.test()
