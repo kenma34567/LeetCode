@@ -16,7 +16,6 @@ class Solution:
                 combination.append(c)
                 backtrack(i, combination)
                 combination.pop()
-                backtrack(i + 1, combination)
 
         ans = []
         backtrack(0, [])
