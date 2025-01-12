@@ -1,3 +1,9 @@
+"""
+Runtime: 30 ms Beats 99.42%
+Memory: 19.9 MB Beats 90.57%
+dfs
+"""
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -6,20 +12,29 @@
 #         self.right = right
 class Solution:
     def maxAncestorDiff(self, root: Optional[TreeNode]) -> int:
-        def dfs(node: Optional[TreeNode], maxAbsAncestor: int, minAbsAncestor: int, ans: int):
+
+        """
+            cal result for left and right respectively, return the max between max and min
+        """
+
+        def dfsCalMaxDif(node: Optional[TreeNode], maxVal: int, minVal: int):
+
             if not node:
-                return ans
+                return maxVal - minVal
 
-            # print("processing", node.val, "max", maxAbsAncestor, "min", minAbsAncestor)
+            # if node.val == 8:
+            # print("return!", maxVal, minVal)
 
-            maxAbsAncestor = max(maxAbsAncestor, node.val)
-            minAbsAncestor = min(minAbsAncestor, node.val)
-            ans = max(ans, maxAbsAncestor - minAbsAncestor)
+            minVal = min(minVal, node.val)
+            maxVal = max(maxVal, node.val)
 
-            ans = dfs(node.left, maxAbsAncestor, minAbsAncestor, ans)
-            ans = dfs(node.right, maxAbsAncestor, minAbsAncestor, ans)
+            leftResult = dfsCalMaxDif(node.left, maxVal, minVal)
+            rightResult = dfsCalMaxDif(node.right, maxVal, minVal)
 
-            return ans
+            return max(leftResult, rightResult)
 
-        ans = dfs(root, root.val, root.val, 0)
-        return ans
+        if not root:
+            return 0
+
+        return dfsCalMaxDif(root, root.val, root.val)
+

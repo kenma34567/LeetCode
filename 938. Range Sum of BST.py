@@ -1,3 +1,9 @@
+"""
+Runtime: 253 ms Beats 78.57%
+Memory: 23 MB Beats 50.13%
+bfs
+"""
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -7,18 +13,24 @@
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
 
-        def dfs(node: Optional[TreeNode], ans):
-            if not node:
-                return ans
+        if not root:
+            return 0
 
-            if low <= node.val <= high:
-                ans += node.val
+        def BFS(root: Optional[TreeNode], low: int, high: int, ans: int) -> int:
 
-            if node.val >= low:
-                ans = dfs(node.left, ans)
-            if node.val <= high:
-                ans = dfs(node.right, ans)
+            if low <= root.val <= high:
+                print("adding", root.val)
+                ans += root.val
 
+            if root.left:
+                ans = BFS(root.left, low, high, ans)
+
+            if root.right:
+                ans = BFS(root.right, low, high, ans)
             return ans
 
-        return dfs(root, 0)
+        return BFS(root, low, high, 0)
+
+
+
+

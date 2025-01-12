@@ -1,3 +1,9 @@
+"""
+Runtime: 39 ms Beats 77.56%
+Memory: 13.8 MB Beats 89.21%
+dfs
+"""
+
 # Definition for a binary tree node.
 # class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
@@ -7,16 +13,27 @@
 class Solution:
     def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
 
-        def dfs(node: Optional[TreeNode], seq: []):
-            if not node:
-                return seq
+        """
+            dfs to find all leafValues, then compare 2 lists
+        """
+        def dfs(root: Optional[TreeNode], leafValues: List) -> List:
 
-            if not node.left and not node.right:
-                seq.append(node.val)
+            if not root:
+                return leafValues
 
-            seq = dfs(node.left, seq)
-            seq = dfs(node.right, seq)
+            if root.left:
+                dfs(root.left, leafValues)
 
-            return seq
+            if root.right:
+                dfs(root.right, leafValues)
 
-        return dfs(root1, []) == dfs(root2, [])
+            if not root.left and not root.right:
+                leafValues.append(root.val)
+
+            return leafValues
+
+        list1 = dfs(root1, [])
+        list2 = dfs(root2, [])
+
+        print("COMPARE", list1, list2)
+        return list1 == list2
