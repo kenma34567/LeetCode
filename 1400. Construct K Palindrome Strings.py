@@ -6,9 +6,6 @@ class Solution:
         counter = Counter(s)
         oddCount = 0
         for v in counter.values():
-            if v % 2 != 0:
-                oddCount += 1
-                if oddCount > k:
-                    return False
+            oddCount += v % 2
 
-        return True
+        return oddCount <= k
